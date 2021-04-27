@@ -3,19 +3,13 @@ import './App.css';
 import HomePage from './pages/homepage/homepage-Compo';
 import { Switch, Route } from 'react-router-dom';
 import ShopPage from './pages/shoppage/shop-Compo';
-
-
-const Hats = () => {
-  return (
-  <div>
-  <h1>Hello</h1>
-  </div>
-);}
+import Header from './components/header/header';
 
 function App() {
   return (
-
-    <Switch>
+    <div>
+      <Header />
+      <Switch>
       <Route exact path="/">
         <HomePage/>
       </Route>
@@ -24,7 +18,7 @@ function App() {
         <ShopPage/>
       </Route>
     </Switch>
-    
+    </div>
   );
 }
 
