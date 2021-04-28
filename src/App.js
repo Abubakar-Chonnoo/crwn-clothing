@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import ShopPage from './pages/shoppage/shop-Compo';
 import Header from './components/header/header';
 import SignPage from './pages/sign/sign';
-import { auth } from './firebase/firebase.util';
+import { auth, createUserProfileDocument } from './firebase/firebase.util';
 
 function App() {
 
@@ -13,10 +13,19 @@ function App() {
 
   useEffect(() => {
 
-    // Anything in here is fired on component mount (componentDidMount)..
-    const setUnsubscribeFromAuth = auth.onAuthStateChanged(user => { 
-      setCurrentUser(user); 
-      console.log(user) 
+    // Anything in here is fired on component mount (componentDidMount)...
+    const setUnsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { 
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapShot => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          });
+          console.log({currentUser});
+        });
+      }
+      setCurrentUser(userAuth);
     });
 
     return () => {
@@ -28,7 +37,7 @@ function App() {
     
 
   return (
-    <div>
+    <div className='box-container'>
       <Header currentUser={currentUser} />
       <Switch>
       <Route exact path="/">
