@@ -11,22 +11,44 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
 
+    // const [ObjUser, setObjUser] = useState(
+    //     {
+    //         displayName: '',
+    //         email: '',
+    //         password: '',
+    //         confirmPass: ''
+    //     }
+    // );
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
+        // const { displayName, email, password, confirmPass } = {...ObjUser};
+
+        // const obj = {name: 'abu'};
+        // let {name, email} = { ...obj }
+
         if(password !== confirmPass)
         {
             alert('passwords dont match');
             return;
         }
-
+        
         try{
             const {user} = await auth.createUserWithEmailAndPassword(email, password);
             await createUserProfileDocument(user, {displayName});
+            // console.log(user);
+            // console.log(displayName);
             setDisplayName('');
             setEmail('');
             setPassword('');
             setConfirmPass('');
+            // setObjUser({
+            //     displayName: '',
+            //     email: '',
+            //     password: '',
+            //     confirmPass: ''
+            // });
 
         } catch(error){
             console.error(error);
@@ -49,7 +71,10 @@ const SignUp = () => {
         if(name === 'confirmPass'){
             setConfirmPass(value);
         }
-    }
+
+        // const {name, value} = event.target;
+        // setObjUser ({[name]: value});
+    };
 
     return (
         <div className='sign-up'>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import HomePage from './pages/homepage/homepage-Compo';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import ShopPage from './pages/shoppage/shop-Compo';
 import Header from './components/header/header';
 import SignPage from './pages/sign/sign';
 import { auth, createUserProfileDocument } from './firebase/firebase.util';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions';
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
   useEffect(() => {
 
     // Anything in here is fired on component mount (componentDidMount)...
+    // const{setCurrentUser} = this.props;
     const setUnsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { 
       if(userAuth){
         const userRef = await createUserProfileDocument(userAuth);
@@ -22,7 +25,7 @@ function App() {
             id: snapShot.id,
             ...snapShot.data()
           });
-          console.log({currentUser});
+        console.log(currentUser);
         });
       }
       setCurrentUser(userAuth);
@@ -55,5 +58,10 @@ function App() {
     </div>
   );
 }
+
+// const mapDispatchToProps = (dispatch) => ({
+//   setCurrentUser: user => dispatch(setCurrentUser(user))
+// });
+// export default connect(null, mapDispatchToProps)(App);
 
 export default App;
