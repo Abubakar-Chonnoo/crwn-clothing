@@ -1,7 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './collectionItem-Compo.scss';
+import CustomButton from '../button/button';
 
-const CollectionItem = ({ id, name, price, imageUrl }) => {
+const CollectionItem = ({ item, cartItem ,setCartItem }) => {
+
+    const {name, price, imageUrl} = item;
+
+    const AddItemQuantity = (cartItems, ItemToAdd) => {
+        const existingItems = cartItems.find(
+            cartItem => cartItem.id === ItemToAdd.id
+        );
+    
+        if(existingItems){
+            return cartItems.map(
+                cartItem => cartItem.id === ItemToAdd.id ?
+                { ...cartItem, quantity: cartItem.quantity + 1} :
+                cartItem
+            )
+        }
+    
+        return [...cartItems, { ...ItemToAdd, quantity: 1}]
+    }
+
+    const addToCart = () => {
+        setCartItem(AddItemQuantity(cartItem, item));
+    }
+
     return (
         <div className='collection-item'>
             <div className='image' style={{backgroundImage: `url(${imageUrl})`}}></div>
@@ -9,6 +33,7 @@ const CollectionItem = ({ id, name, price, imageUrl }) => {
                 <span className='name'>{name}</span>
                 <span className='price'>{price}</span>
             </div>
+            <CustomButton onClick={addToCart} inverted>Add to cart</CustomButton>
         </div>
     )
 };
