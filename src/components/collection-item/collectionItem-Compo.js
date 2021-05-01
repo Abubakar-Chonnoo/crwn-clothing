@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import './collectionItem-Compo.scss';
 import CustomButton from '../button/button';
 
-const CollectionItem = ({ item, cartItem ,setCartItem }) => {
-
-    const {name, price, imageUrl} = item;
+const CollectionItem = ({ itemsDATA , cartItem, setCartItem}) => {
+    // const [cartItems, setCartItems] = useState([]); // setCartItems[...cartItems]
+    const {name, price, imageUrl} = itemsDATA;
 
     const AddItemQuantity = (cartItems, ItemToAdd) => {
         const existingItems = cartItems.find(
@@ -21,9 +21,10 @@ const CollectionItem = ({ item, cartItem ,setCartItem }) => {
     
         return [...cartItems, { ...ItemToAdd, quantity: 1}]
     }
-
     const addToCart = () => {
-        setCartItem(AddItemQuantity(cartItem, item));
+        
+        // 
+        setCartItem(AddItemQuantity(cartItem, itemsDATA));
     }
 
     return (

@@ -7,10 +7,9 @@ import { connect, useSelector } from 'react-redux';
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, cartItem, setCartItem, togle, setTogle}) => {
 
     const [cartHidden, setCartHidden] = useState(true); // to toggle cart dropdown
-
 
     return (
         <div className='header'>
@@ -26,10 +25,10 @@ const Header = ({ currentUser }) => {
                     :
                     <Link className='option' to='/signin'>SIGN IN</Link>
                 }
-                <CartIcon CartToggle={cartHidden} setCartToggle={setCartHidden}/>
+                <CartIcon CartToggle={cartHidden} setCartToggle={setCartHidden} cartItems={cartItem} setCartItems={setCartItem} />
             </div>
             {/*{!cartHidden && <CartDropdown />}*/}
-            {cartHidden? null: <CartDropdown />}
+            {cartHidden? null: <CartDropdown cartItems={cartItem} setCartItems={setCartItem} toggle={togle} setToggle={setTogle}/>}
             
         </div>
     )
